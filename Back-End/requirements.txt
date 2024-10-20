@@ -3,4 +3,5 @@ pydantic
 typing
 together
 requests
+uvicorn
 python-dotenv
