@@ -3,4 +3,4 @@ pydantic
 typing
 together
 requests
-dotenv
+python-dotenv
