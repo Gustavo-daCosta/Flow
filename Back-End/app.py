@@ -35,7 +35,7 @@ def get_route_link(origin, destination, mode='driving'):
     route_link = maps.get_route_link(origin, destination, mode)
     return route_link
 
-@app.get("/create-turistic-route")
+@app.post("/create-turistic-route")
 async def create_turistic_route(person_data: DataModel):
     API_KEY = get_api_key("TOGETHER")
     
