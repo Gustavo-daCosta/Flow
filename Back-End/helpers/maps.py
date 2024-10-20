@@ -1,8 +1,6 @@
 from time import sleep
 import requests
 
-#location = '-23.57232,-46.70866'  # Coordenadas do Share Butantã
-
 async def get_places_from_maps(
     api_key: str,
     coordinates: str,
@@ -42,3 +40,29 @@ async def get_places_from_maps(
             break
 
     return places[:60]
+
+def get_coordinates_from_address(API_KEY: str, address: str) -> str:
+    url = f'https://maps.googleapis.com/maps/api/geocode/json'
+    
+    params = {
+        'address': address,
+        'key': API_KEY
+    }
+
+    response = requests.get(url, params=params)
+    data = response.json()
+
+    if data['status'] == 'OK':
+        result = data['results'][0]
+        coordinates = result['geometry']['location']
+        return {
+            'latitude': coordinates['lat'],
+            'longitude': coordinates['lng']
+        }
+    else:
+        return { 'error': f"Erro ao obter as coordenadas: {data['status']}" }
+
+def get_route_link(origin: str, destination: str, mode: str = 'driving') -> str:
+    maps_link = f"https://www.google.com/maps/dir/?api=1&origin={origin}&destination={destination}&travelmode={mode}"
+    return maps_link
+    

@@ -1,0 +1,36 @@
+{
+    "exit_point": {
+        "name": "",
+        "longitude": -8.5444,
+        "latitude": 42.8806
+    },
+    "turistic_points": [
+        {
+            "name": "",
+            "description": "",
+            "rating": 4.5,
+            "distance": 0.5,
+            "estimade_time_in_minutes": 30,
+            "duration_in_minutes": 60,
+            "link_maps": ""
+        },
+        {
+            "name": "",
+            "description": "",
+            "rating": 4.5,
+            "distance": 0.5,
+            "estimade_time_in_minutes": 30,
+            "duration_in_minutes": 60,
+            "link_maps": ""
+        },
+        {
+            "name": "",
+            "description": "",
+            "rating": 4.5,
+            "distance": 0.5,
+            "estimade_time_in_minutes": 30,
+            "duration_in_minutes": 60,
+            "link_maps": ""
+        }
+    ]
+}
