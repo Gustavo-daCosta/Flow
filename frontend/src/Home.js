@@ -7,18 +7,19 @@ import TimeField from './components/TimeField';
 import Checkbox from './components/Checkbox';
 import Button from './components/Button';
 import './App.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import AutocompleteInput from './components/AutocompleteInput';
 
 function Home() {
   const placePickerRef = useRef(null);
-  const [value, setValue] = useState(250); // Valor inicial do slider
+  const [value, setValue] = useState(0); // Valor inicial do slider
   const [date, setDate] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
-  const [selectedPlace, setSelectedPlace] = useState(null);
-  const [address, setAddress] = useState(''); // Novo estado para armazenar o endereço
-  const [manualAddress, setManualAddress] = useState(''); // Novo estado para o endereço manual
+  const [address, setAddress] = useState(''); // Endereço armazenado
+  const [manualAddress, setManualAddress] = useState(''); // Endereço manual
   const [resultado, setResultado] = useState({}); // Estado para armazenar o resultado da requisição
+  
   const navigate = useNavigate(); // Hook para navegação programática
 
   // Estados para Checkboxes
@@ -47,6 +48,12 @@ function Home() {
   const [isSamba, setIsSamba] = useState(false);
   const [isComidaRegional, setIsComidaRegional] = useState(false);
 
+  // Novos estados para ambience, gastronomy, vibe e transport_types
+  const [ambience, setAmbience] = useState([]);
+  const [gastronomy, setGastronomy] = useState([]);
+  const [vibe, setVibe] = useState([]);
+  const [transport_types, setTransportTypes] = useState([]);
+
   const transportOptions = [
     'Carro',
     'Transporte Público',
@@ -62,79 +69,32 @@ function Home() {
     'Não vou comer',
   ];
 
-  const handleChange = (event) => {
-    setValue(event.target.value);
+  const handleAddressSelect = (selectedAddress) => {
+    setAddress(selectedAddress);
+    console.log("Endereço selecionado: ", selectedAddress);
   };
 
-  const handlePlaceChange = (event) => {
-    const place = event.detail.result;
-    console.log('Place object:', place);
-    console.log('Formatted address:', place.formatted_address);
-    setSelectedPlace(place.formatted_address);
-  };
-
-  const handleSaveAddress = () => {
+  const handlePlaceChange = () => {
     if (placePickerRef.current) {
-      const address = placePickerRef.current.value;
-      setAddress(address);
-      console.log('Address saved:', address);
+      const place = placePickerRef.current.getPlace(); // Método para capturar o place
+      if (place && place.formatted_address) {
+        setAddress(place.formatted_address);
+        console.log('Endereço selecionado:', place.formatted_address);
+      } else {
+        console.log('Nenhum endereço foi selecionado.');
+      }
     }
   };
 
   useEffect(() => {
     const el = placePickerRef.current;
     if (el) {
-      el.addEventListener('gmpx-place-changed', handlePlaceChange);
-
-      // Cleanup the event listener on component unmount
-      return () => {
-        el.removeEventListener('gmpx-place-changed', handlePlaceChange);
-      };
+      el.addEventListener('place_changed', handlePlaceChange);
+      return () => el.removeEventListener('place_changed', handlePlaceChange);
     }
-  }, []); // Empty dependency array ensures this runs once on mount
+  }, []);
 
   const handleSubmit = () => {
-    if (!manualAddress) {
-      alert('Por favor, preencha o endereço manual.');
-      return;
-    }
-
-    // Mapeamento para os valores esperados pela API
-    const transportMapping = {
-      Carro: 'carro',
-      'Transporte Público': 'transporte_publico',
-      'A pé': 'a_pe',
-      'Transporte por Aplicativo': 'transporte_aplicativo',
-      Bicicleta: 'bicicleta',
-    };
-
-    const transport_types = selectedTransportOptions.map(
-      (option) => transportMapping[option]
-    );
-
-    // Coleta dos moods
-    const ambience = [];
-    if (isNatural) ambience.push('Contato com a natureza');
-    if (isSilencioso) ambience.push('Ambientes Silenciosos');
-    if (isRelaxante) ambience.push('Espaços Relaxante');
-    if (isAnimado) ambience.push('Animado');
-
-    const vibe = [];
-    if (isRomantico) vibe.push('Romântico');
-    if (isEsportivo) vibe.push('Esportivo');
-    if (isDescontraido) vibe.push('Descontraído');
-    if (isCultural) vibe.push('Cultural');
-    if (isFamiliar) vibe.push('Familiar');
-    if (isFestivo) vibe.push('Festivo');
-
-    const gastronomy = [];
-    if (isPagode) gastronomy.push('Pagode');
-    if (isRestaurante) gastronomy.push('Restaurante');
-    if (isDrinks) gastronomy.push('Drinks');
-    if (isSamba) gastronomy.push('Samba');
-    if (isComidaRegional) gastronomy.push('Comida Regional');
-
-    // Construção do objeto de dados
     const data = {
       local: manualAddress, // Use the manual address
       max_price: Number(value),
@@ -144,7 +104,7 @@ function Home() {
         return_time: endTime,
       },
       food: selectedFoodOptions,
-      transport_types: transport_types,
+      transport_types: selectedTransportOptions,
       accessibility: isAccessibility,
       pet_friendly: isPetFriendly,
       child_friendly: isChildFriendly,
@@ -157,7 +117,6 @@ function Home() {
 
     console.log('Dados enviados:', data);
 
-    // Envio da requisição
     fetch('https://flow-3slz.onrender.com/create-turistic-route', {
       method: 'POST',
       headers: {
@@ -168,13 +127,10 @@ function Home() {
       .then((response) => response.json())
       .then((result) => {
         setResultado(result);
-        console.log('Success:', result);
-        // Navega para a página de resultados com o estado
         navigate('/results', { state: { resultado: result } });
       })
       .catch((error) => {
-        console.error('Error:', error);
-        // Trate os erros aqui
+        console.error('Erro:', error);
       });
   };
 
@@ -186,77 +142,26 @@ function Home() {
       <div id="forms">
         {/* Seção de Local */}
         <div className="locate-section">
-          <h1>
-            Local<span className="required-asterisk">*</span>
-          </h1>
+          <h1>Local<span className="required-asterisk">*</span></h1>
           <hr className="custom-line" />
           <p>Preencha com o local de saída para seu passeio</p>
-          <gmpx-place-picker
-            ref={placePickerRef}
-            placeholder="Digite um endereço"
-            className="endereco_box"
-          ></gmpx-place-picker>
-          <button onClick={handleSaveAddress}>Salvar Endereço</button>
-
-          {/* Novo campo de preenchimento manual */}
-          <p>Ou preencha o endereço manualmente:</p>
-          <input
-            type="text"
-            placeholder="Digite um endereço manual"
-            value={manualAddress}
-            onChange={(e) => setManualAddress(e.target.value)}
-            className="manual_address_box"
-          />
+          <AutocompleteInput onSelect={handleAddressSelect}/>
+          <p>Endereço selecionado ou digitado: {address || manualAddress}</p>
         </div>
 
-        {/* Restante do código permanece o mesmo */}
         <div className="cost-range-section">
-          <h1>
-            Faixa de Custo<span className="required-asterisk">*</span>
-          </h1>
+          <h1>Faixa de Custo<span className="required-asterisk">*</span></h1>
           <hr className="custom-line" />
-          <p>Preencha com o valor máximo que deseja gastar por pessoa</p>
-
-          <input
-            type="range"
-            min="0"
-            max="500"
-            value={value}
-            onChange={handleChange}
-            className="slider"
-            step="25"
-          />
-          <p>
-            Valor selecionado:{' '}
-            <span className="dinheiro">
-              R$ {value === '500' ? '500+' : value}
-            </span>{' '}
-            por pessoa
-          </p>
+          <input type="range" step='20' min="0" max="200" value={value} onChange={(e) => setValue(e.target.value)} />
+          <p>Valor selecionado: R$ {value === '200' ? '200+' : value} por pessoa</p>
         </div>
 
-        {/* Seção de Horários */}
         <div className="time">
-          <h1>
-            Horários<span className="required-asterisk">*</span>
-          </h1>
+          <h1>Horários<span className="required-asterisk">*</span></h1>
           <hr className="custom-line" />
-          <p>Preencha os horários livres para sua saída e volta</p>
-          <DateField
-            label="Data"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
-          <TimeField
-            label="Saída"
-            value={startTime}
-            onChange={(e) => setStartTime(e.target.value)}
-          />
-          <TimeField
-            label="Retorno"
-            value={endTime}
-            onChange={(e) => setEndTime(e.target.value)}
-          />
+          <DateField label="Data" value={date} onChange={(e) => setDate(e.target.value)} />
+          <TimeField label="Saída" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
+          <TimeField label="Retorno" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
         </div>
 
         {/* Seção de Alimentação */}
@@ -352,26 +257,50 @@ function Home() {
 
           <Checkbox
             label="Contato com a natureza"
-            checked={isNatural}
-            onChange={(e) => setIsNatural(e.target.checked)}
+            checked={ambience.includes('Contato com a natureza')}
+            onChange={(e) => {
+              if (e.target.checked) {
+                setAmbience([...ambience, 'Contato com a natureza']);
+              } else {
+                setAmbience(ambience.filter((item) => item !== 'Contato com a natureza'));
+              }
+            }}
           />
 
           <Checkbox
             label="Ambientes Silenciosos"
-            checked={isSilencioso}
-            onChange={(e) => setIsSilencioso(e.target.checked)}
+            checked={ambience.includes('Ambientes Silenciosos')}
+            onChange={(e) => {
+              if (e.target.checked) {
+                setAmbience([...ambience, 'Ambientes Silenciosos']);
+              } else {
+                setAmbience(ambience.filter((item) => item !== 'Ambientes Silenciosos'));
+              }
+            }}
           />
 
           <Checkbox
             label="Espaços Relaxante"
-            checked={isRelaxante}
-            onChange={(e) => setIsRelaxante(e.target.checked)}
+            checked={ambience.includes('Espaços Relaxante')}
+            onChange={(e) => {
+              if (e.target.checked) {
+                setAmbience([...ambience, 'Espaços Relaxante']);
+              } else {
+                setAmbience(ambience.filter((item) => item !== 'Espaços Relaxante'));
+              }
+            }}
           />
 
           <Checkbox
             label="Animado"
-            checked={isAnimado}
-            onChange={(e) => setIsAnimado(e.target.checked)}
+            checked={ambience.includes('Animado')}
+            onChange={(e) => {
+              if (e.target.checked) {
+                setAmbience([...ambience, 'Animado']);
+              } else {
+                setAmbience(ambience.filter((item) => item !== 'Animado'));
+              }
+            }}
           />
 
           <div className="subtitle-experience">
@@ -381,38 +310,74 @@ function Home() {
 
           <Checkbox
             label="Romântico"
-            checked={isRomantico}
-            onChange={(e) => setIsRomantico(e.target.checked)}
+            checked={vibe.includes('Romântico')}
+            onChange={(e) => {
+              if (e.target.checked) {
+                setVibe([...vibe, 'Romântico']);
+              } else {
+                setVibe(vibe.filter((item) => item !== 'Romântico'));
+              }
+            }}
           />
 
           <Checkbox
             label="Esportivo"
-            checked={isEsportivo}
-            onChange={(e) => setIsEsportivo(e.target.checked)}
+            checked={vibe.includes('Esportivo')}
+            onChange={(e) => {
+              if (e.target.checked) {
+                setVibe([...vibe, 'Esportivo']);
+              } else {
+                setVibe(vibe.filter((item) => item !== 'Esportivo'));
+              }
+            }}
           />
 
           <Checkbox
             label="Descontraído"
-            checked={isDescontraido}
-            onChange={(e) => setIsDescontraido(e.target.checked)}
+            checked={vibe.includes('Descontraído')}
+            onChange={(e) => {
+              if (e.target.checked) {
+                setVibe([...vibe, 'Descontraído']);
+              } else {
+                setVibe(vibe.filter((item) => item !== 'Descontraído'));
+              }
+            }}
           />
 
           <Checkbox
             label="Cultural"
-            checked={isCultural}
-            onChange={(e) => setIsCultural(e.target.checked)}
+            checked={vibe.includes('Cultural')}
+            onChange={(e) => {
+              if (e.target.checked) {
+                setVibe([...vibe, 'Cultural']);
+              } else {
+                setVibe(vibe.filter((item) => item !== 'Cultural'));
+              }
+            }}
           />
 
           <Checkbox
             label="Familiar"
-            checked={isFamiliar}
-            onChange={(e) => setIsFamiliar(e.target.checked)}
+            checked={vibe.includes('Familiar')}
+            onChange={(e) => {
+              if (e.target.checked) {
+                setVibe([...vibe, 'Familiar']);
+              } else {
+                setVibe(vibe.filter((item) => item !== 'Familiar'));
+              }
+            }}
           />
 
           <Checkbox
             label="Festivo"
-            checked={isFestivo}
-            onChange={(e) => setIsFestivo(e.target.checked)}
+            checked={vibe.includes('Festivo')}
+            onChange={(e) => {
+              if (e.target.checked) {
+                setVibe([...vibe, 'Festivo']);
+              } else {
+                setVibe(vibe.filter((item) => item !== 'Festivo'));
+              }
+            }}
           />
 
           <div className="subtitle-experience">
@@ -422,32 +387,62 @@ function Home() {
 
           <Checkbox
             label="Pagode"
-            checked={isPagode}
-            onChange={(e) => setIsPagode(e.target.checked)}
+            checked={gastronomy.includes('Pagode')}
+            onChange={(e) => {
+              if (e.target.checked) {
+                setGastronomy([...gastronomy, 'Pagode']);
+              } else {
+                setGastronomy(gastronomy.filter((item) => item !== 'Pagode'));
+              }
+            }}
           />
 
           <Checkbox
             label="Restaurante"
-            checked={isRestaurante}
-            onChange={(e) => setIsRestaurante(e.target.checked)}
+            checked={gastronomy.includes('Restaurante')}
+            onChange={(e) => {
+              if (e.target.checked) {
+                setGastronomy([...gastronomy, 'Restaurante']);
+              } else {
+                setGastronomy(gastronomy.filter((item) => item !== 'Restaurante'));
+              }
+            }}
           />
 
           <Checkbox
             label="Drinks"
-            checked={isDrinks}
-            onChange={(e) => setIsDrinks(e.target.checked)}
+            checked={gastronomy.includes('Drinks')}
+            onChange={(e) => {
+              if (e.target.checked) {
+                setGastronomy([...gastronomy, 'Drinks']);
+              } else {
+                setGastronomy(gastronomy.filter((item) => item !== 'Drinks'));
+              }
+            }}
           />
 
           <Checkbox
             label="Samba"
-            checked={isSamba}
-            onChange={(e) => setIsSamba(e.target.checked)}
+            checked={gastronomy.includes('Samba')}
+            onChange={(e) => {
+              if (e.target.checked) {
+                setGastronomy([...gastronomy, 'Samba']);
+              } else {
+                setGastronomy(gastronomy.filter((item) => item !== 'Samba'));
+              }
+            }}
           />
 
           <Checkbox
             label="Comida Regional"
-            checked={isComidaRegional}
-            onChange={(e) => setIsComidaRegional(e.target.checked)}
+            checked={gastronomy.includes('Comida Regional')}
+            onChange={(e) => {
+              if (e.target.checked) {
+                setGastronomy([...gastronomy, 'Comida Regional']);
+              } else {
+                setGastronomy(gastronomy.filter((item) => item !== 'Comida Regional'));
+              }
+            }}
           />
         </div>
       </div>
