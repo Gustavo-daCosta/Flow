@@ -81,7 +81,7 @@ h1 {
   font-family: 'Archivo', sans-serif;
   font-size: 1.3rem;
   margin-bottom: 1px;
-  margin-left: 5%;
+  margin-left: 10%;
   text-align: left;
   color: #5D737E;
 }
@@ -134,13 +134,14 @@ h1 {
 
 input[type="range"] {
   -webkit-appearance: none;
-  width: 80%;
-  height: 8px;
-  background: #000;
+  width: 75vw; /* 80% of the viewport width */
+  height: 10%;
+  background: url('./components/assets/line_for_price.svg') no-repeat center center;
+  background-size: contain;
   border-radius: 5px;
   outline: none;
-  opacity: 0.7;
   transition: opacity 0.2s;
+  step: 25;
 }
 
 input[type="range"]:hover {
@@ -153,25 +154,29 @@ input[type="range"]::-webkit-slider-thumb {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: #ff7a00; /* Cor do círculo */
+  background: url('./components/assets/Mapin.svg') no-repeat center center;
+  background-size: contain;
   cursor: pointer;
-  border: 2px solid #fff;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
 }
 
 input[type="range"]::-moz-range-thumb {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: #ff7a00;
+  background: url('./components/assets/Mapin.svg') no-repeat center center;
+  background-size: contain;
   cursor: pointer;
-  border: 2px solid #fff;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
 }
 
 .cost-range-section {
   position: relative;
   margin-top: 40px;
+}
+
+.cost-range-section span {
+  font-family: 'Archivo', sans-serif;
+  font-weight: bold;
 }
 
 cost-range-section p.value-label {
@@ -188,6 +193,7 @@ cost-range-section p.value-label {
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
+  margin-left: 10px;
 }
 
 @media (max-width: 600px) {
@@ -218,4 +224,29 @@ cost-range-section p.value-label {
   border-bottom: 1.5px solid #000000; /* Espessura e cor da linha */
   flex-grow: 1; /* Faz a linha crescer para ocupar o espaço restante */
   margin-bottom: 0px;
+}
+
+.required-asterisk {
+  color: #F86624;
+  margin-left: 5px; /* Optional: To add some space between "Local" and the asterisk */
+}
+
+
+.endereco_box {
+  width: 80%; /* Adjust width as needed */
+  max-width: 400px; /* Maximum width */
+  height: 40px; /* Adjust height if needed */
+  padding: 8px; /* Padding to make the input feel more spacious */
+  border: 1px solid #D9D9D9; /* Border styling */
+  border-radius: 4px; /* Rounded corners */
+  font-size: 16px; /* Font size */
+  box-sizing: border-box; /* Ensure padding doesn't affect overall width */
+  margin: 10px 0; /* Add some margin for spacing */
+}
+
+.drop_refeicoes{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 10px;
 }

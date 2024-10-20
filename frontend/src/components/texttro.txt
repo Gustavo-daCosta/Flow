@@ -1,0 +1,35 @@
+{
+  "local": "OXXO - Share - Rua M.M.D.C - Butantã, São Paulo - SP, Brasil",
+  "max_price": 300,
+  "datetime": {
+    "date": "19/10/2024",
+    "exit_time": "17:00",
+    "return_time": "22:00"
+  },
+  "food": [
+    "Almoço",
+    "Café da tarde"
+  ],
+  "transport_types": [
+    "public_transport",
+    "car",
+    "app_transport"
+  ],
+  "accessibility": true,
+  "pet_friendly": false,
+  "child_friendly": true,
+  "moods": {
+    "ambience": [
+      "Contato com a natureza",
+      "Espaços relaxantes"
+    ],
+    "vibe": [
+      "Romântico",
+      "Cultural"
+    ],
+    "gastronomy": [
+      "Comida regional",
+      "Restaurante"
+    ]
+  }
+}

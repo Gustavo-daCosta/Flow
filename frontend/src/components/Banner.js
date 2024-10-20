@@ -6,8 +6,8 @@ const Banner = () => {
     return (
         <div className="banner-container">
             <div className="banner-content">
-                <h1>Quer conhecer novos lugares?</h1>
-                <p>Preencha as informações abaixo para criarmos a melhor agenda de turismo pensando em você!</p>
+                <h1>Crie uma rota personalizada :)</h1>
+                <p>Preencha as informações abaixo para criarmos o melhor plano de turismo pensando em você!</p>
             </div>
         </div>
     );
