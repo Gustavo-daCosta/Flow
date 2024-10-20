@@ -1,0 +1,221 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#place-picker-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#place-picker-container {
+  text-align: left;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'Archivo', sans-serif;
+}
+
+.carousel-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px; /* Altura mínima do carrossel */
+  width: 100%; /* Largura do carrossel */
+  max-width: 100%; /* Largura máxima do carrossel */
+}
+
+.carousel .slide img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+#forms {
+  display: block;
+  justify-content: center;
+}
+
+#forms #locate{
+  align-items: left;
+}
+
+#forms h1 {
+  font-family: 'Archivo', sans-serif;
+  font-size: 1.3rem;
+  margin-bottom: 1px;
+  margin-left: 5%;
+  text-align: left;
+  color: #5D737E;
+}
+
+#forms p {
+  font-family: 'Archivo', sans-serif;
+  font-size: 0.7rem;
+  margin-bottom: 1px;
+  margin-left: 5%;
+  text-align: left;
+  color: #5D737E;
+  margin-bottom: 2%;
+}
+
+#forms .custom-line {
+  border: none;
+  border-bottom: 1.5px solid #36F9A8; /* Espessura e cor da linha */
+  margin-left: 5% 0; /* Espaçamento entre o título e a linha */
+  margin-bottom: 0px;
+}
+
+#forms .price {
+  margin-top: 10%;
+  align-items: left;
+}
+
+#forms .time {
+  margin-top: 10%;
+  align-items: left;
+  display: block;
+}
+
+#forms .demais {
+  margin-top: 10%;
+  align-items: left;
+  display: block;
+}
+
+#forms .food {
+  margin-top: 10%;
+  align-items: left;
+  display: block;
+}
+
+#forms .experience {
+  margin-top: 10%;
+  align-items: left;
+  display: block;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 80%;
+  height: 8px;
+  background: #000;
+  border-radius: 5px;
+  outline: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+input[type="range"]:hover {
+  opacity: 1;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #ff7a00; /* Cor do círculo */
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #ff7a00;
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.cost-range-section {
+  position: relative;
+  margin-top: 40px;
+}
+
+cost-range-section p.value-label {
+  position: absolute;
+  top: -30px;
+  left: calc(50% - 20px); /* Centralizando sobre o slider */
+  font-weight: bold;
+  font-size: 16px;
+  color: #000;
+}
+
+.dropdowns-checkboxes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+@media (max-width: 600px) {
+  .dropdowns-checkboxes {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+#forms .experience .subtitle-experience {
+  display: flex;
+  align-items: center;
+  margin-left: 5%;
+}
+
+#forms .experience .subtitle-experience h2 {
+  font-family: 'Archivo', sans-serif;
+  font-size: 1.1rem;
+  margin-bottom: 1.px;
+  text-align: left;
+  color: #000000;
+  margin-right: 10px; /* Espaçamento entre o h2 e a linha */
+  margin-left: 10px;
+}
+
+#forms .experience .subtitle-experience .custom-line-subtitle {
+  border: none;
+  border-bottom: 1.5px solid #000000; /* Espessura e cor da linha */
+  flex-grow: 1; /* Faz a linha crescer para ocupar o espaço restante */
+  margin-bottom: 0px;
+}

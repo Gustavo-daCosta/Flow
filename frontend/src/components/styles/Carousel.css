@@ -1,0 +1,12 @@
+/* src/components/Carousel.css */
+.carousel-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.carousel .slide img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}

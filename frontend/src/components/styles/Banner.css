@@ -1,0 +1,41 @@
+.banner-container {
+    background-image: url('../assets/background-banner.svg'); /* Altere para o caminho do seu SVG */
+    background-size: cover; /* Torna o fundo responsivo */
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 250px; /* Ajuste conforme necessário */
+    padding: 15px;
+    text-align: center;
+}
+
+.banner-content h1 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 600; /* Archivo Semibold */
+    color: #ffffff;
+    margin-bottom: 10px;
+    font-size: 1.8rem;
+}
+
+.banner-content p {
+    font-family: 'Archivo', sans-serif;
+    font-weight: 400; 
+    color: #ffffff;
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    .banner-container {
+        height: auto; 
+    }
+
+    .banner-content h1 {
+        font-size: 1.4rem;
+    }
+
+    .banner-content p {
+        font-size: 0.9rem;
+    }
+}
