@@ -48,10 +48,16 @@ async def create_turistic_route(person_data: DataModel):
     
     lista_pontos = touristic_route['roteiro']
     for i in range(len(lista_pontos)):
-        if i == 0:
-            lista_pontos[i]["link_rota"] = get_route_link(person_data.local, lista_pontos[i]['nome'])
-        else:
-            lista_pontos[i]["link_rota"] = get_route_link(lista_pontos[i-1]['nome'], lista_pontos[i]['nome'])
+        lista_pontos[i]["link_rota"] = get_route_link(person_data.local if i == 0 else lista_pontos[i-1]['nome'], lista_pontos[i]['nome']).replace(" ", "")
+        
+        if  lista_pontos[i]["nivel_preco"] == 1:
+            lista_pontos[i]["nivel_preco"] = "R$0,00 ~ R$30,00"
+        elif  lista_pontos[i]["nivel_preco"] == 2:
+            lista_pontos[i]["nivel_preco"] = "R$30,00 ~ R$60,00"
+        elif  lista_pontos[i]["nivel_preco"] == 3:
+            lista_pontos[i]["nivel_preco"] = "R$60,00 ~ R$90,00"
+        elif  lista_pontos[i]["nivel_preco"] == 4:
+            lista_pontos[i]["nivel_preco"] = "R$90,00 ~ R$120,00"
     
     touristic_route['roteiro'] = lista_pontos
     
