@@ -1,0 +1,20 @@
+.date-field {
+    display: inline-block;
+    margin: 10px;
+    text-align: center;
+}
+
+.date-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #000;
+}
+
+.input-date {
+    width: 150px;
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

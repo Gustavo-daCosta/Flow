@@ -1,0 +1,19 @@
+.custom-button {
+    margin-top: 15px;
+    background-color: #90ee90; /* Cor verde claro */
+    color: black;
+    border: none;
+    padding: 15px 30px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%; /* Ajusta a largura do botão */
+    border-radius: 5px; /* Bordas arredondadas */
+    transition: background-color 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.custom-button:hover {
+    background-color: #7ed57e; /* Cor um pouco mais escura ao passar o mouse */
+}

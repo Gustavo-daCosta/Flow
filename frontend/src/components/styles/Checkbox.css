@@ -1,0 +1,9 @@
+.checkbox-field {
+    display: inline-block;
+    margin: 10px;
+    text-align: left;
+}
+
+.checkbox-input {
+    margin-right: 10px;
+}

@@ -1,0 +1,20 @@
+.time-field {
+    display: inline-block;
+    margin: 10px;
+    text-align: center;
+}
+
+.time-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #000;
+}
+
+.input-time {
+    width: 100px;
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

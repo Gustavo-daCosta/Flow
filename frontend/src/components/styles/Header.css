@@ -1,0 +1,32 @@
+/* src/components/Header.css */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #fff;
+}
+
+.logo img {
+    height: 20px;
+}
+
+.login-btn {
+    background-color: transparent;
+    border: none;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.login-btn img {
+    margin-left: 6px;
+    height: 20px;
+}
+
+/* src/App.css */
+.App {
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
