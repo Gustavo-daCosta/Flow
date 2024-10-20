@@ -10,6 +10,7 @@ import json
 app = FastAPI()
 
 origins = ["*"]
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -39,10 +40,10 @@ def get_route_link(origin, destination, mode='driving'):
 async def create_turistic_route(person_data: DataModel):
     API_KEY = get_api_key("TOGETHER")
     
-    location = maps.get_coordinates_from_address(get_api_key("MAPS"), person_data.local)
+    location = await maps.get_coordinates_from_address(get_api_key("MAPS"), person_data.local)
     
     places_content = await get_places(location)
-    touristic_route = LLM.get_touristic_route(API_KEY, places_content, person_data)
+    touristic_route = await LLM.get_touristic_route(API_KEY, places_content, person_data)
     touristic_route = json.loads(str(touristic_route)[3:-3])
     
     lista_pontos = touristic_route['roteiro']

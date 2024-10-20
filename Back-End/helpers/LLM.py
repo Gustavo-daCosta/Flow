@@ -1,6 +1,6 @@
 from together import Together
 
-def get_touristic_route(API_KEY: str, places_content: str, person_content: str) -> str:
+async def get_touristic_route(API_KEY: str, places_content: str, person_content: str) -> str:
     client = Together(api_key=API_KEY)
     
     places_content = "Segue um JSON com os pontos turísticos ranqueados por relevância em um raio de distância aceitável da pessoa:" + "\n\n" + str(places_content)

@@ -41,7 +41,7 @@ async def get_places_from_maps(
 
     return places[:60]
 
-def get_coordinates_from_address(API_KEY: str, address: str) -> str:
+async def get_coordinates_from_address(API_KEY: str, address: str) -> str:
     url = f'https://maps.googleapis.com/maps/api/geocode/json'
     
     params = {
