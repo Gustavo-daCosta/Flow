@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import PlacePicker from './components/PlacePicker';
 import Header from './components/Header';
 import ImageCarousel from './components/Carousel';
 import Banner from './components/Banner';
@@ -16,6 +15,8 @@ function App() {
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [selectedPlace, setSelectedPlace] = useState(null);
+  const [address, setAddress] = useState(''); // Novo estado para armazenar o endereço
+  const [manualAddress, setManualAddress] = useState(''); // Novo estado para o endereço manual
 
   // Estados para Checkboxes
   const [selectedTransportOptions, setSelectedTransportOptions] = useState([]);
@@ -69,9 +70,16 @@ function App() {
     setSelectedPlace(place.formatted_address);
   };
 
+  const handleSaveAddress = () => {
+    if (placePickerRef.current) {
+      const address = placePickerRef.current.value;
+      setAddress(address);
+      console.log('Address saved:', address);
+    }
+  };
+
   useEffect(() => {
     const el = placePickerRef.current;
-    alert(el.value)
     if (el) {
       el.addEventListener('gmpx-place-changed', handlePlaceChange);
 
@@ -83,8 +91,8 @@ function App() {
   }, []); // Empty dependency array ensures this runs once on mount
 
   const handleSubmit = () => {
-    if (!selectedPlace) {
-      alert('Por favor, selecione um endereço válido.');
+    if (!manualAddress) {
+      alert('Por favor, preencha o endereço manual.');
       return;
     }
 
@@ -125,7 +133,7 @@ function App() {
 
     // Construção do objeto de dados
     const data = {
-      local: selectedPlace, // Use selectedPlace directly
+      local: manualAddress, // Use the manual address
       max_price: Number(value),
       datetime: {
         date: date,
@@ -183,9 +191,20 @@ function App() {
             placeholder="Digite um endereço"
             className="endereco_box"
           ></gmpx-place-picker>
+          <button onClick={handleSaveAddress}>Salvar Endereço</button>
+
+          {/* Novo campo de preenchimento manual */}
+          <p>Ou preencha o endereço manualmente:</p>
+          <input
+            type="text"
+            placeholder="Digite um endereço manual"
+            value={manualAddress}
+            onChange={(e) => setManualAddress(e.target.value)}
+            className="manual_address_box"
+          />
         </div>
 
-        {/* Seção de Faixa de Custo */}
+        {/* Restante do código permanece o mesmo */}
         <div className="cost-range-section">
           <h1>
             Faixa de Custo<span className="required-asterisk">*</span>
