@@ -51,6 +51,10 @@
 
 <br>
 
+# Demonstração da solução
+
+https://github.com/user-attachments/assets/dc112c73-2ef5-4157-b407-851d304fa82d
+
 # <a name="c1"></a>1. Introdução 
  &emsp; Na edição de 2024 do hackathon (Visite São Paulo), os responsáveis apresentaram uma proposta inovadora: utilizar a tecnologia para transformar os moradores de São Paulo em turistas em sua própria cidade.
 
