@@ -1,5 +1,6 @@
 import React from 'react';
 import './styles/TuristicPointCard.css'; // Importa o arquivo CSS separado
+import mapa from './assets/mapa.png'; // Importa o arquivo CSS separado
 
 const TuristicPointCard = ({
   number, // Nova prop para o número
@@ -35,7 +36,7 @@ const TuristicPointCard = ({
             </div>
 
             <div>
-              <strong className="travel-time-label-response">Tempo de Deslocamento: </strong>
+              <strong className="travel-time-label-response">Tempo de Visitação: </strong>
               <span className="value-response">{estimade_time_in_minutes} minutos</span>
             </div>
 
@@ -47,8 +48,7 @@ const TuristicPointCard = ({
           
           <div className="map-link-container-response">
             <a href={link_rota} target="_blank" rel="noopener noreferrer" className="map-link-response">
-          {console.log(link_rota)}
-              Como chegar
+              Como chegar <img src={mapa} alt="Mapa" className="map-icon-response" />
             </a>
           </div>
         </div>

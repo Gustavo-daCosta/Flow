@@ -117,3 +117,8 @@
 .card-response:last-child::before {
     height: calc(100% - 30px); /* A última linha para acima do círculo no último cartão */
 }
+
+.map-icon-response {
+    width: 20px;
+    height: 20px;
+  }

@@ -96,7 +96,7 @@ function Home() {
 
   const handleSubmit = () => {
     const data = {
-      local: manualAddress, // Use the manual address
+      local: address, // Use the address or manual address
       max_price: Number(value),
       datetime: {
         date: date,
@@ -117,7 +117,7 @@ function Home() {
 
     console.log('Dados enviados:', data);
 
-    fetch('https://flow-3slz.onrender.com/create-turistic-route', {
+    fetch('http://127.0.0.1:8000/create-turistic-route', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

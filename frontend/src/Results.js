@@ -15,7 +15,6 @@ const Results = () => {
     <div>
       <h1>Resultados</h1>
       <hr className="custom-line" />
-      <p>Confira as recomendações de pontos turísticos para sua trilha</p>
       {resultado.roteiro.map((point, index) => (
         <TuristicPointCard
           key={index}  // É sempre uma boa prática passar uma chave única ao mapear arrays
